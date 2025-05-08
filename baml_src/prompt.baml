@@ -4,7 +4,7 @@ class Story {
 }
 
 function WriteMeAStory(input: string) -> Story {
-  client "openai/gpt-4o"
+  client FastOpenAI
   prompt #"
     Tell me a short story
 
