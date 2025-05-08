@@ -18,12 +18,13 @@ $ pnpm add @boundaryml/baml
 import type { Check, Checked  } from "../types";
 import type { Image, Audio } from "@boundaryml/baml";
 
-import type {  Resume,  Story } from "../types"
+import type {  Message,  Resume,  Story } from "../types"
 
 import type * as types from "../types"
 import type { partial_types }from "../partial_types";
 
 export type StreamingServerTypes = {
+  Chat: string,
   ExtractResume: partial_types.Resume,
   WriteMeAStory: partial_types.Story,
 }

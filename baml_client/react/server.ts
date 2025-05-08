@@ -21,13 +21,31 @@ import { b } from '../index';
 import type { Check, Checked  } from "../types";
 import type { Image, Audio } from "@boundaryml/baml";
 
-import type {  Resume,  Story } from "../types"
+import type {  Message,  Resume,  Story } from "../types"
 
 import type * as types from "../types"
 
 /**
  * Regular BAML server actions that return direct responses.
  */
+
+/**
+ * Executes the "Chat" BAML action.
+ *
+ * This server action calls the underlying BAML function "Chat"
+ * with the specified parameters.
+ *
+ * @param { Message[] } messages - Input parameter.
+ *
+ * @returns {Promise<string>} A promise that resolves with the result of the action.
+ */
+export const Chat = async (
+  messages: Message[],
+): Promise<string> => {
+  return b.Chat(
+    messages,
+  );
+};
 
 /**
  * Executes the "ExtractResume" BAML action.

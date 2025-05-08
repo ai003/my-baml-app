@@ -356,6 +356,54 @@ function useBamlAction<FunctionName extends FunctionNames>(
   } satisfies HookOutput<FunctionName, { stream: typeof props.stream }>
 }
 /**
+ * A specialized hook for the Chat BAML function that supports both streaming and non‑streaming responses.
+ *
+ * **Input Types:**
+ *
+ * - messages: Message[]
+ *
+ *
+ * **Return Type:**
+ * - **Non‑streaming:** string
+ * - **Streaming Partial:** string
+ * - **Streaming Final:** string
+ *
+ * **Usage Patterns:**
+ * 1. **Non‑streaming (Default)**
+ *    - Best for quick responses and simple UI updates.
+ * 2. **Streaming**
+ *    - Ideal for long‑running operations or real‑time feedback.
+ *
+ * **Edge Cases:**
+ * - Ensure robust error handling via `onError`.
+ * - Handle cases where partial data may be incomplete or missing.
+ *
+ * @example
+ * ```tsx
+ * // Basic non‑streaming usage:
+ * const { data, error, isLoading, mutate } = useChat({ stream: false});
+ *
+ * // Streaming usage:
+ * const { data, streamData, isLoading, error, mutate } = useChat({
+ *   stream: true | undefined,
+ *   onStreamData: (partial) => console.log('Partial update:', partial),
+ *   onFinalData: (final) => console.log('Final result:', final),
+ *   onError: (err) => console.error('Error:', err),
+ * });
+ * ```
+ */
+export function useChat(props: HookInput<'Chat', { stream: false }>): HookOutput<'Chat', { stream: false }>
+export function useChat(props?: HookInput<'Chat', { stream?: true }>): HookOutput<'Chat', { stream: true }>
+export function useChat(
+  props: HookInput<'Chat', { stream?: boolean }> = {},
+): HookOutput<'Chat', { stream: true }> | HookOutput<'Chat', { stream: false }> {
+  let action = Actions.Chat;
+  if (isStreamingProps(props)) {
+    action = StreamingActions.Chat;
+  }
+  return useBamlAction(action, props)
+}
+/**
  * A specialized hook for the ExtractResume BAML function that supports both streaming and non‑streaming responses.
  *
  * **Input Types:**
